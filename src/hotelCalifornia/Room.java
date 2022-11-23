@@ -1,19 +1,19 @@
 package hotelCalifornia;
 
 public class Room {
-	int id;
-	int category;
-	int capacity;
-	int prix;
-	boolean isAvailable;
-	boolean hasEnoughCapacity;
-	boolean isChosenCategory;
+	private int id;
+	private RoomCategory category;
+	private int capacity;
+	private int price;
+	private boolean isAvailable;
+	private boolean hasEnoughCapacity;
+	private boolean isChosenCategory;
 	
-	public Room (int id, int cat, int cap, int prix, boolean isAvailable, boolean hasEnoughCapacity, boolean isChosenCategory) {
+	public Room (final int id,final RoomCategory cat,final int cap,final int price,final boolean isAvailable,final boolean hasEnoughCapacity,final boolean isChosenCategory) {
 		this.id = id;
 		this.category = cat;
 		this.capacity = cap;
-		this.prix = prix;
+		this.price = price;
 		this.isAvailable = isAvailable;	
 		this.hasEnoughCapacity = hasEnoughCapacity;
 		this.isChosenCategory = isChosenCategory;
@@ -27,11 +27,11 @@ public class Room {
 		this.id = id;
 	}
 
-	public int getCategory() {
+	public RoomCategory getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(RoomCategory category) {
 		this.category = category;
 	}
 
@@ -43,12 +43,12 @@ public class Room {
 		this.capacity = capacity;
 	}
 
-	public int getPrix() {
-		return prix;
+	public int getPrice() {
+		return price;
 	}
 
-	public void setPrix(int prix) {
-		this.prix = prix;
+	public void setprice(int price) {
+		this.price = price;
 	}
 
 	public boolean isAvailable() {
