@@ -55,17 +55,17 @@ public class Billing {
 		return rooms;
 	}
 
-	public static void inputCapacity(Room[] roomArray, RoomCategory[] catArray) {
+	public static int inputCapacity(Room[] roomArray, RoomCategory[] catArray) {
 		Scanner in = new Scanner(System.in);
 		int userCapResponse;
 		do {
 			System.out.println("Indiquez le nombre de personnes (max 4) : ");
 			userCapResponse = in.nextInt();
 		} while (userCapResponse < 1 || userCapResponse > 4);
-		filterCapacity(userCapResponse, roomArray, catArray);
+		return userCapResponse;
 	}
 
-	public static void inputCategory(Room[] roomArray, RoomCategory[] catArray) {
+	public static int inputCategory(Room[] roomArray, RoomCategory[] catArray) {
 		Scanner in = new Scanner(System.in);
 		int userCatResponse;
 		do {
@@ -75,38 +75,14 @@ public class Billing {
 			}
 			userCatResponse = in.nextInt();
 		} while (userCatResponse < 1 || userCatResponse > 6);
-
-		filterCategory(userCatResponse, roomArray, catArray);
-
+		return userCatResponse;
 	}
 
-	public static void filterCapacity(int wantedCapacity, Room[] roomArray, RoomCategory[] catArray) {
-		for (int i = 0; i < roomArray.length; i++) {
-			if (roomArray[i].getCapacity() >= wantedCapacity) {
-				roomArray[i].setHasEnoughCapacity(true);
-			} else {
-				roomArray[i].setHasEnoughCapacity(false);
-			}
-		}
-		inputCategory(roomArray, catArray);
-	}
-
-	public static void filterCategory(int wantedCategory, Room[] roomArray, RoomCategory[] catArray) {
-		for (int i = 0; i < roomArray.length; i++) {
-			if (roomArray[i].getCategory().getId() == wantedCategory) {
-				roomArray[i].setChosenCategory(true);
-			} else {
-				roomArray[i].setChosenCategory(false);
-			}
-		}
-		filterAvailable(roomArray);
-	}
-
-	public static void filterAvailable(Room[] roomArray) {
+	public static void filterAvailable(Room[] roomArray, int cap, int cat) {
 		List<Room> availableRooms = new ArrayList<Room>();
 		for (int i = 0; i < roomArray.length; i++) {
-			if (roomArray[i].isAvailable() == true && roomArray[i].isChosenCategory() == true
-					&& roomArray[i].isHasEnoughCapacity()) {
+			if (roomArray[i].isAvailable() == true && roomArray[i].getCategory().getId() == cat
+					&& roomArray[i].getCapacity() == cap) {
 				availableRooms.add(roomArray[i]);
 			}
 		}
@@ -114,32 +90,36 @@ public class Billing {
 	}
 
 	public static void displayAvailableRooms(List<Room> availableRooms) {
-		Scanner in = new Scanner(System.in);
-		Room[] availRooms = new Room[availableRooms.size()];
-		availableRooms.toArray(availRooms);
+//		Room[] availRooms = (Room[]) availableRooms.toArray();//new Room[availableRooms.size()];
 		StringBuilder userChoice = new StringBuilder();
 		userChoice.append("Voici la liste des chambres disponible ");
 		userChoice.append("\n");
-		for (int i = 0; i < availRooms.length; i++) {
+		for (Room room : availableRooms) {
 			userChoice.append("Chambre n°");
-			userChoice.append(availRooms[i].getId());
+			userChoice.append(room.getId());
 			userChoice.append(", Capacité : ");
-			userChoice.append(availRooms[i].getCapacity());
+			userChoice.append(room.getCapacity());
 			userChoice.append(" personnes, Equipements : ");
-			userChoice.append(availRooms[i].getCategory().getDescription());
+			userChoice.append(room.getCategory().getDescription());
 			userChoice.append(" price : ");
-			userChoice.append(availRooms[i].getPrice());
+			userChoice.append(room.getPrice());
 			userChoice.append(" €");
 			userChoice.append("\n");
 		}
 		System.out.println(userChoice);
+		userChoice.toString();
+		rentRoom(availableRooms);
+	}
+
+	public static void rentRoom(List<Room> availableRooms) {
+		Scanner in = new Scanner(System.in);
 		System.out.println(
 				"Veuillez indiquer le n° de la chambre que vous souhaitez reserver, indiquez 0 pour annuler votre commande.");
 		int userRoomChoice = in.nextInt();
-		for (int i = 0; i<availRooms.length; i++) {
-			if (userRoomChoice == availRooms[i].getId()) {
-				availRooms[i].setAvailable(false);
-			}
+		List<Integer> roomNumbers = new ArrayList<Integer>();
+		for (Room room : availableRooms) {
+			roomNumbers.add(room.getId());
 		}
-		}
+		
+	}
 }

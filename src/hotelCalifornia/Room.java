@@ -6,17 +6,13 @@ public class Room {
 	private int capacity;
 	private int price;
 	private boolean isAvailable;
-	private boolean hasEnoughCapacity;
-	private boolean isChosenCategory;
 	
 	public Room (final int id,final RoomCategory cat,final int cap,final int price,final boolean isAvailable,final boolean hasEnoughCapacity,final boolean isChosenCategory) {
 		this.id = id;
 		this.category = cat;
 		this.capacity = cap;
 		this.price = price;
-		this.isAvailable = isAvailable;	
-		this.hasEnoughCapacity = hasEnoughCapacity;
-		this.isChosenCategory = isChosenCategory;
+		this.isAvailable = isAvailable;
 	}
 
 	public int getId() {
@@ -57,21 +53,5 @@ public class Room {
 
 	public void setAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
-	}
-
-	public boolean isHasEnoughCapacity() {
-		return hasEnoughCapacity;
-	}
-
-	public void setHasEnoughCapacity(boolean hasEnoughCapacity) {
-		this.hasEnoughCapacity = hasEnoughCapacity;
-	}
-
-	public boolean isChosenCategory() {
-		return isChosenCategory;
-	}
-
-	public void setChosenCategory(boolean isChosenCategory) {
-		this.isChosenCategory = isChosenCategory;
 	}
 }
