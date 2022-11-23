@@ -6,8 +6,7 @@ import java.util.Scanner;
 
 public class Billing {
 	// TODO : Generate a STOP method.
-	// TODO : visibilité des méthodes
-//	static Room[] roomArray = 
+	// TODO : static Room[] roomArray =
 	public static RoomCategory[] createRoomCategory() {
 		RoomCategory[] catArray = new RoomCategory[6];
 		catArray[0] = new RoomCategory(1, "Lavabo");
@@ -101,7 +100,7 @@ public class Billing {
 			userChoice.append(room.getCapacity());
 			userChoice.append(" personnes, Equipements : ");
 			userChoice.append(room.getCategory().getDescription());
-			userChoice.append(" price : ");
+			userChoice.append(" prix : ");
 			userChoice.append(room.getPrice());
 			userChoice.append(" €");
 			userChoice.append("\n");
@@ -120,7 +119,14 @@ public class Billing {
 		for (Room room : availableRooms) {
 			roomNumbers.add(room.getId());
 		}
-		if userRoomChoice in roomNumbers :
-			System.out.println(roomNumbers);
+		for (int i = 0; i < roomNumbers.size(); i++) {
+			if (userRoomChoice == roomNumbers.get(i)) {
+				System.out.println("le bon numero");
+				break;
+			} 
+				System.out.println("pas le nombre");
+			
+		}
+		System.out.println("nptm");
 	}
 }
