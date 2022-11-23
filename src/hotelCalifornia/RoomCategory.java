@@ -1,5 +1,9 @@
 package hotelCalifornia;
 
+/**
+ * @author Sarah Katz
+ *
+ */
 public class RoomCategory {
 	int id;
 	String description;

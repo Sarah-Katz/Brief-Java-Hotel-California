@@ -120,6 +120,7 @@ public class Billing {
 		for (Room room : availableRooms) {
 			roomNumbers.add(room.getId());
 		}
-		
+		if userRoomChoice in roomNumbers :
+			System.out.println(roomNumbers);
 	}
 }

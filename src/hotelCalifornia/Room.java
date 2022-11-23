@@ -1,5 +1,9 @@
 package hotelCalifornia;
 
+/**
+ * @author Sarah Katz
+ *
+ */
 public class Room {
 	private int id;
 	private RoomCategory category;
