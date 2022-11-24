@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Billing {
-	// TODO : Generate a STOP method.
+	// TODO : Generate a RESET method.
 	// TODO : static Room[] roomArray =
+	// TODO : Generate a noRoomAvailable method
 	public static RoomCategory[] createRoomCategory() {
 		RoomCategory[] catArray = new RoomCategory[6];
 		catArray[0] = new RoomCategory(1, "Lavabo");
@@ -77,7 +78,7 @@ public class Billing {
 		return userCatResponse;
 	}
 
-	public static void filterAvailable(Room[] roomArray, int cap, int cat) {
+	public static void filterAvailable(Room[] roomArray, RoomCategory[] catArray, int cap, int cat) {
 		List<Room> availableRooms = new ArrayList<Room>();
 		for (int i = 0; i < roomArray.length; i++) {
 			if (roomArray[i].isAvailable() == true && roomArray[i].getCategory().getId() == cat
@@ -85,11 +86,10 @@ public class Billing {
 				availableRooms.add(roomArray[i]);
 			}
 		}
-		displayAvailableRooms(availableRooms);
+		displayAvailableRooms(roomArray, catArray, availableRooms);
 	}
 
-	public static void displayAvailableRooms(List<Room> availableRooms) {
-//		Room[] availRooms = (Room[]) availableRooms.toArray();//new Room[availableRooms.size()];
+	public static void displayAvailableRooms(Room[] roomArray, RoomCategory[] catArray, List<Room> availableRooms) {
 		StringBuilder userChoice = new StringBuilder();
 		userChoice.append("Voici la liste des chambres disponible ");
 		userChoice.append("\n");
@@ -107,10 +107,10 @@ public class Billing {
 		}
 		System.out.println(userChoice);
 		userChoice.toString();
-		rentRoom(availableRooms);
+		inputUserChoice(roomArray, catArray, availableRooms);
 	}
 
-	public static void rentRoom(List<Room> availableRooms) {
+	public static void inputUserChoice(Room[] roomArray, RoomCategory[] catArray, List<Room> availableRooms) {
 		Scanner in = new Scanner(System.in);
 		System.out.println(
 				"Veuillez indiquer le n° de la chambre que vous souhaitez reserver, indiquez 0 pour annuler votre commande.");
@@ -119,14 +119,50 @@ public class Billing {
 		for (Room room : availableRooms) {
 			roomNumbers.add(room.getId());
 		}
+		boolean isValid = false;
 		for (int i = 0; i < roomNumbers.size(); i++) {
 			if (userRoomChoice == roomNumbers.get(i)) {
-				System.out.println("le bon numero");
+				isValid = true;
+				roomRenter(roomArray, catArray, userRoomChoice);
 				break;
-			} 
-				System.out.println("pas le nombre");
-			
+			} else if (userRoomChoice == 0) {
+				displayCancel(roomArray, catArray);
+			}
 		}
-		System.out.println("nptm");
+		if (isValid == false) {
+			displayAvailableRooms(roomArray, catArray, availableRooms);
+		}
+	}
+
+	public static void roomRenter(Room[] roomArray, RoomCategory[] catArray, int userRoomChoice) {
+		for (int i = 0; i < roomArray.length; i++) {
+			if (userRoomChoice == roomArray[i].getId()) {
+				roomArray[i].setAvailable(false);
+				displayBillingConfirm(roomArray, catArray, userRoomChoice);
+			}
+		}
+	}
+
+	public static void displayBillingConfirm(Room[] roomArray, RoomCategory[] catArray, int userRoomChoice) {
+		StringBuilder result = new StringBuilder();
+		result.append("Votre réservation de la chambre n°");
+		result.append(userRoomChoice);
+		result.append(" est confirmée.");
+		System.out.println(result);
+		Tester.program(roomArray, catArray);
+	}
+	
+	public static void displayCancel(Room[] roomArray, RoomCategory[] catArray) {
+		System.out.println("Your billing has been canceled");
+		Tester.program(roomArray, catArray);
+	}
+	
+	public static void reset(Room[] roomArray, RoomCategory[] catArray) {
+		System.out.println("---");
+		System.out.println("---");
+		System.out.println("Retour début de programme");
+		System.out.println("---");
+		System.out.println("---");
+		Tester.program(roomArray, catArray);
 	}
 }
