@@ -8,6 +8,7 @@ public class Billing {
 	// TODO : Generate a RESET method.
 	// TODO : static Room[] roomArray =
 	// TODO : Generate a noRoomAvailable method
+	// TODO : make parameters final in methods
 	public static RoomCategory[] createRoomCategory() {
 		RoomCategory[] catArray = new RoomCategory[6];
 		catArray[0] = new RoomCategory(1, "Lavabo");
