@@ -9,6 +9,7 @@ public class Main {
 	protected final static Room[] ROOMARRAY = Billing.createRoom(CATARRAY);
 
 	public static void main(String[] args) {
-		Menu.menu(ROOMARRAY, CATARRAY);
+		CSVManager.importCSV(ROOMARRAY, CATARRAY);
+//		Menu.menu(ROOMARRAY, CATARRAY);
 	}
 }

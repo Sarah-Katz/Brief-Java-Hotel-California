@@ -14,7 +14,7 @@ public class Room {
 	private int price;
 	private boolean isAvailable;
 	
-	public Room (final int id,final RoomCategory cat,final int cap,final int price,final boolean isAvailable,final boolean hasEnoughCapacity,final boolean isChosenCategory) {
+	public Room (final int id,final RoomCategory cat,final int cap,final int price,final boolean isAvailable) {
 		this.id = id;
 		this.category = cat;
 		this.capacity = cap;

@@ -26,7 +26,7 @@ public class Menu {
 			int userChoice = in.nextInt();
 			switch (userChoice) {
 			case 1:
-				Room.showInfos(Room.showAvailable(Main.ROOMARRAY));
+				Room.showInfos(Room.showAvailable(roomArray));
 				menu(roomArray, catArray);
 				break;
 			case 2:
