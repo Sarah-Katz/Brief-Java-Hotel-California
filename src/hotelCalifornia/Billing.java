@@ -1,6 +1,7 @@
 package hotelCalifornia;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class Billing {
 	// TODO : Generate a RESET method.
 	// TODO : Generate a noRoomAvailable method
 	// TODO : make parameters final in methods
-	
+
 	public static RoomCategory[] createRoomCategory() {
 		RoomCategory[] catArray = new RoomCategory[6];
 		catArray[0] = new RoomCategory(1, "Lavabo");
@@ -56,36 +57,46 @@ public class Billing {
 		return rooms;
 	}
 
-	public static void booking(final Room[] roomArray,final RoomCategory[] catArray) {
-		int userWantedCap = Billing.inputCapacity(roomArray, catArray);
-		int userWantedCat = Billing.inputCategory(roomArray, catArray);
-		Billing.filterAvailable(roomArray, catArray, userWantedCap, userWantedCat);
-	}
-	
-	public static int inputCapacity(final Room[] roomArray,final RoomCategory[] catArray) {
-		Scanner in = new Scanner(System.in);
-		int userCapResponse;
-		do {
-			System.out.println("Indiquez le nombre de personnes (max 4) : ");
-			userCapResponse = in.nextInt();
-		} while (userCapResponse < 1 || userCapResponse > 4);
-		return userCapResponse;
+	public static void inputCapacity(final Room[] roomArray, final RoomCategory[] catArray) {
+		try {
+			Scanner in = new Scanner(System.in);
+			int userCapResponse;
+			do {
+				System.out.println("Indiquez le nombre de personnes (max 4) : ");
+				userCapResponse = in.nextInt();
+			} while (userCapResponse < 1 || userCapResponse > 4);
+			inputCategory(roomArray, catArray, userCapResponse);
+		} catch (InputMismatchException e) {
+			System.out.println("___________________________________________________________");
+			System.out.println("|Une erreur relative à l'entrée utilisateur s'est produite|");
+			System.out.println("|_________________________________________________________|");
+			inputCapacity(roomArray, catArray);
+		}
+
 	}
 
-	public static int inputCategory(final Room[] roomArray,final RoomCategory[] catArray) {
-		Scanner in = new Scanner(System.in);
-		int userCatResponse;
-		do {
-			System.out.println("Choissez le numéro correspondant à la catégorie de chambre souhaitée");
-			for (int i = 0; i < catArray.length; i++) {
-				System.out.println(catArray[i].getId() + " - " + catArray[i].getDescription());
-			}
-			userCatResponse = in.nextInt();
-		} while (userCatResponse < 1 || userCatResponse > 6);
-		return userCatResponse;
+	private static void inputCategory(final Room[] roomArray, final RoomCategory[] catArray, final int userWantedCap) {
+		try {
+			Scanner in = new Scanner(System.in);
+			int userCatResponse;
+			do {
+				System.out.println("Choissez le numéro correspondant à la catégorie de chambre souhaitée");
+				for (int i = 0; i < catArray.length; i++) {
+					System.out.println(catArray[i].getId() + " - " + catArray[i].getDescription());
+				}
+				userCatResponse = in.nextInt();
+			} while (userCatResponse < 1 || userCatResponse > 6);
+			filterAvailable(roomArray, catArray, userWantedCap, userCatResponse);
+		} catch (InputMismatchException e) {
+			System.out.println("___________________________________________________________");
+			System.out.println("|Une erreur relative à l'entrée utilisateur s'est produite|");
+			System.out.println("|_________________________________________________________|");
+			inputCategory(roomArray, catArray, userWantedCap);
+		}
 	}
 
-	public static void filterAvailable(final Room[] roomArray,final RoomCategory[] catArray,final int cap,final int cat) {
+	private static void filterAvailable(final Room[] roomArray, final RoomCategory[] catArray, final int cap,
+			final int cat) {
 		List<Room> availableRooms = new ArrayList<Room>();
 		for (int i = 0; i < roomArray.length; i++) {
 			if (roomArray[i].isAvailable() == true && roomArray[i].getCategory().getId() == cat
@@ -96,31 +107,32 @@ public class Billing {
 		displayAvailableRooms(roomArray, catArray, availableRooms);
 	}
 
-	public static void displayAvailableRooms(final Room[] roomArray,final RoomCategory[] catArray,final List<Room> availableRooms) {
-		StringBuilder userChoice = new StringBuilder();
-		userChoice.append("Voici la liste des chambres disponible ");
-		userChoice.append("\n");
+	private static void displayAvailableRooms(final Room[] roomArray, final RoomCategory[] catArray,
+			final List<Room> availableRooms) {
+		StringBuilder availRooms = new StringBuilder();
+		availRooms.append("Voici la liste des chambres disponible ");
+		availRooms.append("\n");
 		for (Room room : availableRooms) {
-			userChoice.append("Chambre n°");
-			userChoice.append(room.getId());
-			userChoice.append(", Capacité : ");
-			userChoice.append(room.getCapacity());
-			userChoice.append(" personnes, Equipements : ");
-			userChoice.append(room.getCategory().getDescription());
-			userChoice.append(" prix : ");
-			userChoice.append(room.getPrice());
-			userChoice.append(" €");
-			userChoice.append("\n");
+			availRooms.append("Chambre n°");
+			availRooms.append(room.getId());
+			availRooms.append(", Capacité : ");
+			availRooms.append(room.getCapacity());
+			availRooms.append(" personnes, Equipements : ");
+			availRooms.append(room.getCategory().getDescription());
+			availRooms.append(" prix : ");
+			availRooms.append(room.getPrice());
+			availRooms.append(" €");
+			availRooms.append("\n");
 		}
-		System.out.println(userChoice);
-		userChoice.toString();
+		System.out.println(availRooms);
 		inputUserChoice(roomArray, catArray, availableRooms);
 	}
 
-	public static void inputUserChoice(final Room[] roomArray,final RoomCategory[] catArray,final List<Room> availableRooms) {
+	private static void inputUserChoice(final Room[] roomArray, final RoomCategory[] catArray,
+			final List<Room> availableRooms) {
 		Scanner in = new Scanner(System.in);
 		System.out.println(
-				"Veuillez indiquer le n° de la chambre que vous souhaitez reserver, indiquez 0 pour annuler votre commande.");
+				"Veuillez indiquer le n° de la chambre que vous souhaitez réserver, indiquez 0 pour annuler votre commande.");
 		int userRoomChoice = in.nextInt();
 		List<Integer> roomNumbers = new ArrayList<Integer>();
 		for (Room room : availableRooms) {
@@ -141,35 +153,29 @@ public class Billing {
 		}
 	}
 
-	public static void roomRenter(final Room[] roomArray,final RoomCategory[] catArray,final int userRoomChoice) {
+	private static void roomRenter(final Room[] roomArray, final RoomCategory[] catArray, final int userRoomChoice) {
 		for (int i = 0; i < roomArray.length; i++) {
 			if (userRoomChoice == roomArray[i].getId()) {
 				roomArray[i].setAvailable(false);
+				CSVManager.exportCSV(roomArray, catArray);
 				displayBillingConfirm(roomArray, catArray, userRoomChoice);
 			}
 		}
 	}
 
-	public static void displayBillingConfirm(final Room[] roomArray,final RoomCategory[] catArray,final int userRoomChoice) {
+	private static void displayBillingConfirm(final Room[] roomArray, final RoomCategory[] catArray,
+			final int userRoomChoice) {
 		StringBuilder result = new StringBuilder();
 		result.append("Votre réservation de la chambre n°");
 		result.append(userRoomChoice);
 		result.append(" est confirmée.");
 		System.out.println(result);
-		Menu.startProgram(roomArray, catArray);
+		Menu.menu(roomArray, catArray);
 	}
-	
-	public static void displayCancel(final Room[] roomArray,final RoomCategory[] catArray) {
+
+	private static void displayCancel(final Room[] roomArray, final RoomCategory[] catArray) {
 		System.out.println("Your billing has been canceled");
-		Menu.startProgram(roomArray, catArray);
+		Menu.menu(roomArray, catArray);
 	}
-	
-	public static void reset(final Room[] roomArray,final RoomCategory[] catArray) {
-		System.out.println("---");
-		System.out.println("---");
-		System.out.println("Retour début de programme");
-		System.out.println("---");
-		System.out.println("---");
-		Menu.startProgram(roomArray, catArray);
-	}
+
 }

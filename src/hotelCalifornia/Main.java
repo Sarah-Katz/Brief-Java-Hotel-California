@@ -9,6 +9,6 @@ public class Main {
 	protected final static Room[] ROOMARRAY = Billing.createRoom(CATARRAY);
 
 	public static void main(String[] args) {
-		Menu.startProgram(ROOMARRAY, CATARRAY);
+		Menu.menu(ROOMARRAY, CATARRAY);
 	}
 }

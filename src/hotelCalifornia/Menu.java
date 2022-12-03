@@ -8,15 +8,6 @@ import java.util.Scanner;
  *
  */
 public class Menu {
-
-	public static void startProgram(final Room[] roomArray, final RoomCategory[] catArray) {
-		menu(roomArray, catArray);
-
-//		int userWantedCap = Billing.inputCapacity(roomArray, catArray);
-//		int userWantedCat = Billing.inputCategory(roomArray, catArray);
-//		Billing.filterAvailable(roomArray, catArray, userWantedCap, userWantedCat);
-	}
-
 	public static void menu(final Room[] roomArray, final RoomCategory[] catArray) {
 		try {
 			Scanner in = new Scanner(System.in);
@@ -39,13 +30,23 @@ public class Menu {
 				menu(roomArray, catArray);
 				break;
 			case 2:
-				Billing.booking(roomArray, catArray);
+				Billing.inputCapacity(roomArray, catArray);
 				break;
+			case 3:
+				System.exit(0);
 			}
 		} catch (InputMismatchException e) {
 			System.out.println("/!\\ Merci de renseigner le chiffre de l'action souhaitée /!\\");
 			menu(roomArray, catArray);
 		}
-
+	}
+	
+	public static void reset(final Room[] roomArray,final RoomCategory[] catArray) {
+		System.out.println("---");
+		System.out.println("---");
+		System.out.println("Retour début de programme");
+		System.out.println("---");
+		System.out.println("---");
+		Menu.menu(roomArray, catArray);
 	}
 }
