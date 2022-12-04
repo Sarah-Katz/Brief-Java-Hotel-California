@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 /**
  * This class contains methods used to export and import CSV files containing
- * informations on the rooms
- * 
+ * informations on the rooms.
+ *
  * @author Sarah Katz
  *
  */
@@ -19,6 +19,12 @@ public class CSVManager {
 	private static final String SEPARATOR = "\n";
 	private static final String HEADER = "Numéro de chambre,Catégorie,Capacité,Prix,Disponible";
 
+	/**
+	 * This method exports the list of rooms in a .csv file.
+	 *
+	 * @param roomArray the Array of Room
+	 * @param catArray  the Array of RoomCategory
+	 */
 	protected static void exportCSV(final Room[] roomArray, final RoomCategory[] catArray) {
 		FileWriter roomListCSV = null;
 		try {
@@ -50,9 +56,13 @@ public class CSVManager {
 			Menu.menu(roomArray, catArray);
 		}
 	}
-	
+
 	/**
-	 * TODO : doc
+	 * This method imports the list of rooms from a .csv file. The .csv file must be
+	 * named "Liste_des_chambres.csv" and be in the root folder of the program.
+	 *
+	 * @param roomArray the Array of Room
+	 * @param catArray  the Array of RoomCategory
 	 */
 	protected static void importCSV(final Room[] roomArray, final RoomCategory[] catArray) {
 		try {
@@ -120,9 +130,8 @@ public class CSVManager {
 							.append("disponibilité invalide, nouvelle entrée = faux");
 					System.out.println(error);
 				}
-				
-				
-				Room room = new Room(roomId, catArray[roomCategory- 1], roomCapacity, roomPrice, roomAvailability);
+
+				Room room = new Room(roomId, catArray[roomCategory - 1], roomCapacity, roomPrice, roomAvailability);
 				newRoomList.add(room);
 				newRoomArray = newRoomList.toArray(new Room[31]);
 			}
@@ -139,8 +148,7 @@ public class CSVManager {
 			System.out.println("|                           Liste_des_chambres.csv                               |");
 			System.out.println("|________________________________________________________________________________|");
 			Menu.menu(roomArray, catArray);
-		}
-		catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			System.out.println("___________________________________________________________________________________");
 			System.out.println("|                                                                                 |");
 			System.out.println("|Une erreur existe dans le fichier, veuillez verifier ses données et son formatage|");

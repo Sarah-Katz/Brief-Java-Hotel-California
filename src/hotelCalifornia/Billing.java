@@ -5,11 +5,20 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class contains the methods used to filter, display, and rent a room in
+ * the hotel.
+ *
+ * @author Sarah Katz
+ *
+ */
 public class Billing {
-	// TODO : Generate a RESET method.
-	// TODO : Generate a noRoomAvailable method
-	// TODO : make parameters final in methods
 
+	/**
+	 * Method used to instantiate the room categories.
+	 *
+	 * @return an Array of RoomCategory
+	 */
 	public static RoomCategory[] createRoomCategory() {
 		RoomCategory[] catArray = new RoomCategory[6];
 		catArray[0] = new RoomCategory(1, "Lavabo");
@@ -21,6 +30,12 @@ public class Billing {
 		return catArray;
 	}
 
+	/**
+	 * Method used to instantiate the rooms.
+	 *
+	 * @param catArray an Array of RoomCategory
+	 * @return an Array of Room
+	 */
 	public static Room[] createRoom(final RoomCategory[] catArray) {
 		Room[] rooms = new Room[31];
 		rooms[0] = new Room(1, catArray[0], 1, 100, true);
@@ -57,6 +72,12 @@ public class Billing {
 		return rooms;
 	}
 
+	/**
+	 * Method to start filtering available rooms according to the user criteria.
+	 *
+	 * @param roomArray the Array of Room
+	 * @param catArray  the Array of RoomCategory
+	 */
 	public static void inputCapacity(final Room[] roomArray, final RoomCategory[] catArray) {
 		try {
 			Scanner in = new Scanner(System.in);
@@ -81,8 +102,8 @@ public class Billing {
 			int userCatResponse;
 			do {
 				System.out.println("Choissez le numéro correspondant à la catégorie de chambre souhaitée");
-				for (int i = 0; i < catArray.length; i++) {
-					System.out.println(catArray[i].getId() + " - " + catArray[i].getDescription());
+				for (RoomCategory element : catArray) {
+					System.out.println(element.getId() + " - " + element.getDescription());
 				}
 				userCatResponse = in.nextInt();
 			} while (userCatResponse < 1 || userCatResponse > 6);
@@ -97,11 +118,10 @@ public class Billing {
 
 	private static void filterAvailable(final Room[] roomArray, final RoomCategory[] catArray, final int cap,
 			final int cat) {
-		List<Room> availableRooms = new ArrayList<Room>();
-		for (int i = 0; i < roomArray.length; i++) {
-			if (roomArray[i].isAvailable() == true && roomArray[i].getCategory().getId() == cat
-					&& roomArray[i].getCapacity() == cap) {
-				availableRooms.add(roomArray[i]);
+		List<Room> availableRooms = new ArrayList<>();
+		for (Room element : roomArray) {
+			if (element.isAvailable() && element.getCategory().getId() == cat && element.getCapacity() == cap) {
+				availableRooms.add(element);
 			}
 		}
 		displayAvailableRooms(roomArray, catArray, availableRooms);
@@ -109,23 +129,30 @@ public class Billing {
 
 	private static void displayAvailableRooms(final Room[] roomArray, final RoomCategory[] catArray,
 			final List<Room> availableRooms) {
-		StringBuilder availRooms = new StringBuilder();
-		availRooms.append("Voici la liste des chambres disponible ");
-		availRooms.append("\n");
-		for (Room room : availableRooms) {
-			availRooms.append("Chambre n°");
-			availRooms.append(room.getId());
-			availRooms.append(", Capacité : ");
-			availRooms.append(room.getCapacity());
-			availRooms.append(" personnes, Equipements : ");
-			availRooms.append(room.getCategory().getDescription());
-			availRooms.append(" prix : ");
-			availRooms.append(room.getPrice());
-			availRooms.append(" €");
+		if (availableRooms.isEmpty()) {
+			System.out.println("_____________________________________________________");
+			System.out.println("|Désolé, aucune chambre ne correspond a vos critères|");
+			System.out.println("|___________________________________________________|");
+			Menu.menu(roomArray, catArray);
+		} else {
+			StringBuilder availRooms = new StringBuilder();
+			availRooms.append("Voici la liste des chambres disponible ");
 			availRooms.append("\n");
+			for (Room room : availableRooms) {
+				availRooms.append("Chambre n°");
+				availRooms.append(room.getId());
+				availRooms.append(", Capacité : ");
+				availRooms.append(room.getCapacity());
+				availRooms.append(" personnes, Equipements : ");
+				availRooms.append(room.getCategory().getDescription());
+				availRooms.append(" prix : ");
+				availRooms.append(room.getPrice());
+				availRooms.append(" €");
+				availRooms.append("\n");
+			}
+			System.out.println(availRooms);
+			inputUserChoice(roomArray, catArray, availableRooms);
 		}
-		System.out.println(availRooms);
-		inputUserChoice(roomArray, catArray, availableRooms);
 	}
 
 	private static void inputUserChoice(final Room[] roomArray, final RoomCategory[] catArray,
@@ -134,13 +161,13 @@ public class Billing {
 		System.out.println(
 				"Veuillez indiquer le n° de la chambre que vous souhaitez réserver, indiquez 0 pour annuler votre commande.");
 		int userRoomChoice = in.nextInt();
-		List<Integer> roomNumbers = new ArrayList<Integer>();
+		List<Integer> roomNumbers = new ArrayList<>();
 		for (Room room : availableRooms) {
 			roomNumbers.add(room.getId());
 		}
 		boolean isValid = false;
-		for (int i = 0; i < roomNumbers.size(); i++) {
-			if (userRoomChoice == roomNumbers.get(i)) {
+		for (Integer roomNumber : roomNumbers) {
+			if (userRoomChoice == roomNumber) {
 				isValid = true;
 				roomRenter(roomArray, catArray, userRoomChoice);
 				break;
@@ -148,15 +175,15 @@ public class Billing {
 				displayCancel(roomArray, catArray);
 			}
 		}
-		if (isValid == false) {
+		if (!isValid) {
 			displayAvailableRooms(roomArray, catArray, availableRooms);
 		}
 	}
 
 	private static void roomRenter(final Room[] roomArray, final RoomCategory[] catArray, final int userRoomChoice) {
-		for (int i = 0; i < roomArray.length; i++) {
-			if (userRoomChoice == roomArray[i].getId()) {
-				roomArray[i].setAvailable(false);
+		for (Room element : roomArray) {
+			if (userRoomChoice == element.getId()) {
+				element.setAvailable(false);
 				CSVManager.exportCSV(roomArray, catArray);
 				displayBillingConfirm(roomArray, catArray, userRoomChoice);
 			}

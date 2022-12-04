@@ -1,6 +1,8 @@
 package hotelCalifornia;
 
 /**
+ * This class launches the program.
+ *
  * @author Sarah Katz
  *
  */
@@ -10,6 +12,5 @@ public class Main {
 
 	public static void main(String[] args) {
 		CSVManager.importCSV(ROOMARRAY, CATARRAY);
-//		Menu.menu(ROOMARRAY, CATARRAY);
 	}
 }

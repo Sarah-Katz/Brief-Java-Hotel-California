@@ -4,10 +4,19 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
+ * This class contain the navigation menu.
+ *
  * @author Sarah Katz
  *
  */
 public class Menu {
+
+	/**
+	 * *This is the method starting the main menu.
+	 *
+	 * @param roomArray the Array of Room
+	 * @param catArray  the Array of RoomCategory
+	 */
 	public static void menu(final Room[] roomArray, final RoomCategory[] catArray) {
 		try {
 			Scanner in = new Scanner(System.in);
@@ -40,8 +49,9 @@ public class Menu {
 			menu(roomArray, catArray);
 		}
 	}
-	
-	public static void reset(final Room[] roomArray,final RoomCategory[] catArray) {
+
+	// Unused for now
+	public static void reset(final Room[] roomArray, final RoomCategory[] catArray) {
 		System.out.println("---");
 		System.out.println("---");
 		System.out.println("Retour début de programme");

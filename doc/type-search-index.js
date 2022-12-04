@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"hotelCalifornia","l":"Billing"},{"p":"hotelCalifornia","l":"CSVManager"},{"p":"hotelCalifornia","l":"Main"},{"p":"hotelCalifornia","l":"Menu"},{"p":"hotelCalifornia","l":"Room"},{"p":"hotelCalifornia","l":"RoomCategory"}]

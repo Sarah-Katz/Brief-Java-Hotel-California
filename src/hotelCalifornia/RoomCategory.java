@@ -1,13 +1,22 @@
 package hotelCalifornia;
 
 /**
+ * This class represents a room category and it's informations : the category ID
+ * and it's description.
+ *
  * @author Sarah Katz
  *
  */
 public class RoomCategory {
 	int id;
 	String description;
-	
+
+	/**
+	 * This constructor creates an instance of Room using parameters.
+	 *
+	 * @param id   Category ID
+	 * @param desc Category description
+	 */
 	RoomCategory(int id, String desc) {
 		this.id = id;
 		this.description = desc;
